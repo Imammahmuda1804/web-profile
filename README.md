@@ -2,7 +2,7 @@
 
 Sebuah website portofolio pribadi yang dibangun dengan Next.js dan React, menampilkan berbagai animasi interaktif menggunakan Three.js (R3F), Framer Motion, dan GSAP.
 
-![Tangkapan Layar Proyek](https://i.imgur.com/your-screenshot.png) 
+![Tangkapan Layar Proyek]([https://i.imgur.com/your-screenshot.png](https://web-portofolio-imam.netlify.app)) 
 ## 🔧 Cara Menjalankan Proyek
 
 Untuk menjalankan proyek ini di komputer lokal Anda, ikuti langkah-langkah berikut:
