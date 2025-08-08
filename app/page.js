@@ -1,103 +1,149 @@
-import Image from "next/image";
+"use client";
+import ExperienceTimeline from "@/components/ExperienceTimeline";
+import Magnet from "@/components/Magnet";
+import AnimatedContent from "@/components/AnimatedContent";
+import LanyardCanvas from "@/components/LanyardCanvas";
+import RotatingText from "@/components/RotatingText";
+import GlareHover from "@/components/GlareHover";
+import Carousel from "@/components/Carousel";
+import AnimatedTitle from "@/components/AnimatedTitle";
+import { useInView } from "react-intersection-observer";
+import { FaSchool, FaBriefcase } from "react-icons/fa6";
+import ProjectsSection from "@/components/ProjectsSection";
+import TechStackSection from "@/components/TechStackSection";
+import ConnectSection from "@/components/ConnectSection";
+const experiencesData = [
+  { date: "Agustus 2025 - Sekarang", title: "Mahasiswa Intern", subtitle: "Pt Inovindo Digital Media" },
+  { date: "Februari - Juli 2024", title: "Berkontribusi dalam program pemerintah,PMM batch 4", subtitle: "Pertukaran Mahasiswa Merdeka Batch 4" },
+ 
+];
+const techStackImages = [
+  "/react-logo.png",
+  "/nextjs-logo.png",
+  "/tailwind-logo.png",
+  "/figma-logo.png",
+  "/laravel-logo.png",
+];
+const roles = [
+  "Web Developer",
+  "Software Engineer",
+  "Tech Enthusiast",
+  "Open Source Contributor",
+];
+
+const historyItems = [
+  {
+    id: 1,
+    icon: <FaBriefcase className="h-[16px] w-[16px] text-white" />,
+    title: "Politeknik Negeri Padang",
+    description:
+      "2022 - Sekarang" + "\nJurusan Teknologi Informasi, Program Studi Teknologi Rekayasa Perangkat Lunak (Ipk 3.23)"
+  },
+  {
+    id: 2,
+    icon: <FaBriefcase className="h-[16px] w-[16px] text-white" />,
+    title: "SMA Negeri 3 Padang",
+    description:
+      "2019 - 2022",
+  },
+];
 
 export default function Home() {
-  return (
-    <div className="font-sans grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20">
-      <main className="flex flex-col gap-[32px] row-start-2 items-center sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol className="font-mono list-inside list-decimal text-sm/6 text-center sm:text-left">
-          <li className="mb-2 tracking-[-.01em]">
-            Get started by editing{" "}
-            <code className="bg-black/[.05] dark:bg-white/[.06] font-mono font-semibold px-1 py-0.5 rounded">
-              app/page.js
-            </code>
-            .
-          </li>
-          <li className="tracking-[-.01em]">
-            Save and see your changes instantly.
-          </li>
-        </ol>
+  const { ref: heroRef, inView: isHeroVisible } = useInView({
+    threshold: 0.1,
+  });
 
-        <div className="flex gap-4 items-center flex-col sm:flex-row">
-          <a
-            className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:w-auto"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
-            />
-            Deploy now
-          </a>
-          <a
-            className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 w-full sm:w-auto md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Read our docs
-          </a>
+  return (
+    <main className="bg-black">
+      <section
+        id="home"
+        ref={heroRef}
+        className="h-screen w-full relative flex flex-col items-center justify-center text-white overflow-hidden"
+      >
+        <div className="absolute top-0 left-0 w-full h-full z-0">
+          {isHeroVisible && <LanyardCanvas />}
         </div>
-      </main>
-      <footer className="row-start-3 flex gap-[24px] flex-wrap items-center justify-center">
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
+        <div className="relative z-10 text-center p-4">
+          <AnimatedTitle
+            text="Halo, Saya Imam Mahmuda"
+            className="text-4xl md:text-6xl font-bold mb-4"
           />
-          Learn
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
-      </footer>
+          <div className="text-lg md:text-xl text-gray-300 h-8">
+            <RotatingText
+              texts={roles}
+              staggerDuration={0.02}
+              rotationInterval={3000}
+            />
+          </div>
+        </div>
+      </section>
+
+      <section id="about" className="relative w-full bg-black text-white py-24 px-8 overflow-hidden">
+  <div className="max-w-7xl mx-auto">
+    <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-16 items-center">
+
+      <div className="flex flex-col items-center justify-center gap-8">
+        <AnimatedContent distance={100} delay={0}>
+          <GlareHover
+            borderRadius="24px"
+            glareColor="#00ffff"
+            borderColor="#00ffff"
+            width="300px"
+            height="400px"
+            className="flex-shrink-0 shadow-2xl"
+          >
+            <img
+              src="/foto-profil.jpg"
+              alt="Foto Imam Mahmuda"
+              className="w-full h-full object-cover rounded-[24px]"
+            />
+          </GlareHover>
+        </AnimatedContent>
+        <AnimatedContent distance={100} delay={0.2}>
+          <div className="text-center max-w-lg">
+            <h2 className="text-4xl font-bold mb-6 text-cyan-400">
+              Tentang Saya
+            </h2>
+            <p className="text-lg text-gray-300 leading-relaxed">
+              Saya adalah seorang Web Developer dengan semangat tinggi
+              untuk menciptakan aplikasi web yang modern dan interaktif.
+              Saya memiliki keahlian dalam tumpukan teknologi frontend dan
+              backend, serta selalu antusias untuk mempelajari hal-hal
+              baru di dunia teknologi.
+            </p>
+          </div>
+        </AnimatedContent>
+      </div>
+
+      <div className="flex flex-col items-center justify-center gap-8">
+        <AnimatedContent direction="horizontal" distance={100} delay={0.4}>
+            <Carousel items={historyItems} baseWidth={320} />
+        </AnimatedContent>
+
+        <AnimatedContent distance={100} delay={0.6}>
+            <Magnet padding={30} magnetStrength={5}>
+              <a
+                href="/cv-imam-mahmuda.pdf"
+                download
+                className="inline-block bg-cyan-400 text-black font-bold py-3 px-8 rounded-full transition-transform duration-300 hover:scale-105"
+              >
+                Download CV
+              </a>
+            </Magnet>
+        </AnimatedContent>
+      </div>
+      
     </div>
+  </div>
+</section>
+      <div id="experience">
+      <ExperienceTimeline experiences={experiencesData} />
+      </div>
+      <div id="portofolio">
+      <ProjectsSection />
+      <TechStackSection />
+      <ConnectSection />
+      </div>
+    </main>
   );
 }

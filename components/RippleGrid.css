@@ -1,0 +1,9 @@
+.ripple-grid-container {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100vh; /* Mengisi seluruh tinggi layar */
+  z-index: -1; /* Sangat Penting: menempatkannya di belakang semua konten lain */
+  overflow: hidden; /* Mencegah scroll yang tidak diinginkan */
+}
