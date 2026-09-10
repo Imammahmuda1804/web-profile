@@ -1,5 +1,5 @@
 "use client";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo } from "react";
 import ExperienceTimeline from "@/components/ExperienceTimeline";
 import Magnet from "@/components/Magnet";
 import AnimatedContent from "@/components/AnimatedContent";
@@ -16,16 +16,20 @@ import ConnectSection from "@/components/ConnectSection";
 import SmartImage from "@/components/SmartImage";
 import { getPortfolioData } from "@/lib/portfolioStore";
 import { defaultPortfolioData } from "@/data/portfolio";
+import { useSite } from "@/context/SiteContext";
+import { getLocalizedData } from "@/data/translations";
 
 export default function Home() {
   const [data, setData] = useState(defaultPortfolioData);
   const { ref: heroRef, inView: isHeroVisible } = useInView({ threshold: 0.1 });
+  const { lang, t } = useSite();
 
   useEffect(() => {
     getPortfolioData().then(setData);
   }, []);
 
-  const { profile, education, experiences } = data;
+  const localizedData = useMemo(() => getLocalizedData(data, lang), [data, lang]);
+  const { profile, education, experiences, projects } = localizedData;
 
   const experiencesData = (experiences || []).map((exp) => ({
     date: exp.date,
@@ -36,34 +40,34 @@ export default function Home() {
 
   const historyItems = (education || []).map((edu) => ({
     id: edu.id,
-    icon: <FaBriefcase className="h-4 w-4 text-cyan-400" />,
+    icon: <FaBriefcase className="h-4 w-4 text-accent" />,
     title: edu.institution,
     description: edu.gpa
-      ? `${edu.period}\n${edu.faculty ? edu.faculty + ", " : ""}Program Studi ${edu.major} (IPK ${edu.gpa})`
+      ? `${edu.period}\n${edu.faculty ? edu.faculty + ", " : ""}${t.about.majorPrefix} ${edu.major} (${t.about.gpaPrefix} ${edu.gpa})`
       : edu.major
-      ? `${edu.period}\nJurusan ${edu.major}`
+      ? `${edu.period}\n${t.about.deptPrefix} ${edu.major}`
       : edu.period,
   }));
 
   return (
-    <main className="bg-black">
+    <main className="bg-background text-foreground transition-colors min-h-screen">
       <section
         id="home"
         ref={heroRef}
-        className="h-screen w-full relative flex flex-col items-center justify-center text-white overflow-hidden"
+        className="h-screen w-full relative flex flex-col items-center justify-center text-foreground overflow-hidden"
       >
         <div className="absolute top-0 left-0 w-full h-full z-0">
           {isHeroVisible && <LanyardCanvas />}
         </div>
         <div className="relative z-10 text-center px-4 max-w-4xl mx-auto pointer-events-none select-none">
-          <p className="text-sm md:text-lg text-cyan-400 font-semibold tracking-widest uppercase mb-2">
-            Halo, Saya
+          <p className="text-sm md:text-lg text-accent font-semibold tracking-widest uppercase mb-2">
+            {t.hero.greeting}
           </p>
           <AnimatedTitle
             text={profile.name}
-            className="text-4xl sm:text-6xl md:text-7xl font-extrabold mb-4 tracking-tight text-white drop-shadow-lg"
+            className="text-4xl sm:text-6xl md:text-7xl font-extrabold mb-4 tracking-tight text-foreground drop-shadow-lg"
           />
-          <div className="text-base sm:text-lg md:text-2xl text-gray-300 h-8 flex items-center justify-center">
+          <div className="text-base sm:text-lg md:text-2xl text-muted h-8 flex items-center justify-center">
             <RotatingText
               texts={profile.roles}
               staggerDuration={0.02}
@@ -74,15 +78,16 @@ export default function Home() {
         </div>
       </section>
 
-      <section id="about" className="relative w-full bg-black text-white py-24 px-6 md:px-8 overflow-hidden">
+      <section id="about" className="relative w-full bg-background text-foreground py-24 px-6 md:px-8 overflow-hidden">
         <div className="max-w-7xl mx-auto">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-16 items-center">
             <div className="flex flex-col items-center justify-center gap-8">
               <AnimatedContent distance={100} delay={0}>
                 <GlareHover
                   borderRadius="24px"
-                  glareColor="#00ffff"
-                  borderColor="#00ffff"
+                  glareColor="var(--accent)"
+                  borderColor="var(--accent)"
+                  background="var(--card)"
                   width="min(300px, 85vw)"
                   height="min(400px, 115vw)"
                   className="shrink-0 shadow-2xl"
@@ -96,10 +101,10 @@ export default function Home() {
               </AnimatedContent>
               <AnimatedContent distance={100} delay={0.2}>
                 <div className="text-center max-w-lg">
-                  <h2 className="text-3xl md:text-4xl font-bold mb-6 text-cyan-400">
-                    Tentang Saya
+                  <h2 className="text-3xl md:text-4xl font-bold mb-6 text-accent">
+                    {t.about.title}
                   </h2>
-                  <p className="text-base md:text-lg text-gray-300 leading-relaxed">
+                  <p className="text-base md:text-lg text-muted leading-relaxed">
                     {profile.about}
                   </p>
                 </div>
@@ -117,17 +122,17 @@ export default function Home() {
                     <a
                       href={profile.cvPath}
                       download
-                      className="inline-block bg-cyan-400 text-black font-bold py-3 px-8 rounded-full transition-transform duration-300 hover:scale-105 shadow-lg shadow-cyan-500/20"
+                      className="inline-block bg-accent text-background font-bold py-3 px-8 rounded-full transition-transform duration-300 hover:scale-105 shadow-lg shadow-accent/20"
                     >
-                      Download CV
+                      {t.about.cvButton}
                     </a>
                   </Magnet>
                   <Magnet padding={25} magnetStrength={4}>
                     <a
                       href={`mailto:${profile.email}`}
-                      className="inline-block border-2 border-cyan-400 text-cyan-400 font-bold py-3 px-8 rounded-full transition-all duration-300 hover:bg-cyan-400/10 hover:scale-105"
+                      className="inline-block border-2 border-accent text-accent font-bold py-3 px-8 rounded-full transition-all duration-300 hover:bg-accent/10 hover:scale-105"
                     >
-                      Hubungi Saya
+                      {t.about.contactButton}
                     </a>
                   </Magnet>
                 </div>
@@ -141,7 +146,7 @@ export default function Home() {
         <ExperienceTimeline experiences={experiencesData} />
       </div>
       <div id="portofolio">
-        <ProjectsSection />
+        <ProjectsSection projects={projects} />
         <TechStackSection />
         <ConnectSection />
       </div>

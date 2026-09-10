@@ -69,13 +69,35 @@ export default function ProjectEditor({ projects, onChange }) {
             <span className="text-sm text-gray-500">#{index + 1}</span>
             <button onClick={() => remove(index)} className="text-red-400 hover:text-red-300 text-sm">Hapus</button>
           </div>
-          <div>
-            <label className={labelClass}>Judul</label>
-            <input className={inputClass} value={project.title} onChange={(e) => set(index, "title", e.target.value)} />
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+            <div>
+              <label className={labelClass}>Judul (Indonesia)</label>
+              <input className={inputClass} value={project.title || ""} onChange={(e) => set(index, "title", e.target.value)} />
+            </div>
+            <div>
+              <label className={labelClass}>Judul (English)</label>
+              <input
+                className={inputClass}
+                value={project.title_en || ""}
+                onChange={(e) => set(index, "title_en", e.target.value)}
+                placeholder="Leave blank to use default English translation"
+              />
+            </div>
           </div>
-          <div>
-            <label className={labelClass}>Deskripsi</label>
-            <textarea className={inputClass + " h-20"} value={project.description} onChange={(e) => set(index, "description", e.target.value)} />
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+            <div>
+              <label className={labelClass}>Deskripsi (Indonesia)</label>
+              <textarea className={inputClass + " h-24"} value={project.description || ""} onChange={(e) => set(index, "description", e.target.value)} />
+            </div>
+            <div>
+              <label className={labelClass}>Deskripsi (English)</label>
+              <textarea
+                className={inputClass + " h-24"}
+                value={project.description_en || ""}
+                onChange={(e) => set(index, "description_en", e.target.value)}
+                placeholder="Leave blank to use default English translation"
+              />
+            </div>
           </div>
           <div>
             <label className={labelClass}>Foto (upload atau masukkan URL)</label>

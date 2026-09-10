@@ -6,6 +6,16 @@
   --card: #18181b;
   --border: #27272a;
   --accent: #22d3ee;
+  --muted: #a1a1aa;
+}
+
+.light {
+  --background: #f8fafc;
+  --foreground: #0f172a;
+  --card: #ffffff;
+  --border: #e2e8f0;
+  --accent: #0891b2;
+  --muted: #64748b;
 }
 
 @theme inline {
@@ -14,6 +24,7 @@
   --color-card: var(--card);
   --color-border: var(--border);
   --color-accent: var(--accent);
+  --color-muted: var(--muted);
   --font-sans: inherit;
 }
 
@@ -21,8 +32,9 @@ body {
   background: var(--background);
   color: var(--foreground);
   font-family: var(--font-sans, inherit);
-  scrollbar-color: #3f3f46 #09090b;
+  scrollbar-color: var(--border) var(--background);
   scrollbar-width: thin;
+  transition: background-color 0.2s ease, color 0.2s ease;
 }
 
 /* Utilities */
@@ -41,19 +53,19 @@ body {
 }
 
 ::-webkit-scrollbar-track {
-  background: #09090b;
+  background: var(--background);
 }
 
 ::-webkit-scrollbar-thumb {
-  background: #27272a;
+  background: var(--border);
   border-radius: 4px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: #3f3f46;
+  background: var(--muted);
 }
 
 ::selection {
-  background-color: #22d3ee;
-  color: #09090b;
+  background-color: var(--accent);
+  color: var(--background);
 }

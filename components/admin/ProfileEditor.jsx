@@ -40,8 +40,17 @@ export default function ProfileEditor({ profile, education, onChange, onEducatio
         <input className={inputClass} value={profile.headline} onChange={(e) => set("headline", e.target.value)} />
       </div>
       <div>
-        <label className={labelClass}>Tentang</label>
-        <textarea className={inputClass + " h-32"} value={profile.about} onChange={(e) => set("about", e.target.value)} />
+        <label className={labelClass}>Tentang (Indonesia)</label>
+        <textarea className={inputClass + " h-32"} value={profile.about || ""} onChange={(e) => set("about", e.target.value)} />
+      </div>
+      <div>
+        <label className={labelClass}>Tentang (English)</label>
+        <textarea
+          className={inputClass + " h-32"}
+          value={profile.about_en || ""}
+          onChange={(e) => set("about_en", e.target.value)}
+          placeholder="Leave blank to use default English translation"
+        />
       </div>
       <div>
         <label className={labelClass}>Foto Profil (upload atau masukkan URL)</label>
@@ -75,17 +84,35 @@ export default function ProfileEditor({ profile, education, onChange, onEducatio
             <label className={labelClass}>Institusi</label>
             <input className={inputClass} value={edu.institution} onChange={(e) => setEdu(index, "institution", e.target.value)} />
           </div>
-          <div>
-            <label className={labelClass}>Periode</label>
-            <input className={inputClass} value={edu.period} onChange={(e) => setEdu(index, "period", e.target.value)} />
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+            <div>
+              <label className={labelClass}>Periode (Indonesia)</label>
+              <input className={inputClass} value={edu.period || ""} onChange={(e) => setEdu(index, "period", e.target.value)} />
+            </div>
+            <div>
+              <label className={labelClass}>Periode (English)</label>
+              <input className={inputClass} value={edu.period_en || ""} onChange={(e) => setEdu(index, "period_en", e.target.value)} placeholder="e.g. 2022 - Present" />
+            </div>
           </div>
-          <div>
-            <label className={labelClass}>Jurusan</label>
-            <input className={inputClass} value={edu.major} onChange={(e) => setEdu(index, "major", e.target.value)} />
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+            <div>
+              <label className={labelClass}>Jurusan (Indonesia)</label>
+              <input className={inputClass} value={edu.major || ""} onChange={(e) => setEdu(index, "major", e.target.value)} />
+            </div>
+            <div>
+              <label className={labelClass}>Jurusan (English)</label>
+              <input className={inputClass} value={edu.major_en || ""} onChange={(e) => setEdu(index, "major_en", e.target.value)} placeholder="e.g. Software Engineering Technology" />
+            </div>
           </div>
-          <div>
-            <label className={labelClass}>Fakultas</label>
-            <input className={inputClass} value={edu.faculty} onChange={(e) => setEdu(index, "faculty", e.target.value)} />
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+            <div>
+              <label className={labelClass}>Fakultas (Indonesia)</label>
+              <input className={inputClass} value={edu.faculty || ""} onChange={(e) => setEdu(index, "faculty", e.target.value)} />
+            </div>
+            <div>
+              <label className={labelClass}>Fakultas (English)</label>
+              <input className={inputClass} value={edu.faculty_en || ""} onChange={(e) => setEdu(index, "faculty_en", e.target.value)} placeholder="e.g. Information Technology Department" />
+            </div>
           </div>
           <div>
             <label className={labelClass}>IPK</label>

@@ -255,7 +255,7 @@ useEffect(() => {
   return (
     <div
       ref={containerRef}
-      className={`h-[180px] w-[150px] relative overflow-hidden grid place-items-center aspect-[4/5] border border-[#27272a] rounded-[25px] isolate transition-colors duration-200 ease-[cubic-bezier(0.5,1,0.89,1)] select-none ${className}`}
+      className={`h-[180px] w-[150px] relative overflow-hidden grid place-items-center aspect-[4/5] border border-border bg-card rounded-[25px] isolate transition-colors duration-200 ease-[cubic-bezier(0.5,1,0.89,1)] select-none ${className}`}
 
       onMouseEnter={onMouseEnter}
       onMouseLeave={onMouseLeave}

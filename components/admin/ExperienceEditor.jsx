@@ -42,21 +42,54 @@ export default function ExperienceEditor({ experiences, onChange }) {
             <span className="text-sm text-gray-500">#{index + 1}</span>
             <button onClick={() => remove(index)} className="text-red-400 hover:text-red-300 text-sm">Hapus</button>
           </div>
-          <div>
-            <label className={labelClass}>Tanggal</label>
-            <input className={inputClass} value={exp.date} onChange={(e) => set(index, "date", e.target.value)} />
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+            <div>
+              <label className={labelClass}>Tanggal/Periode (Indonesia)</label>
+              <input className={inputClass} value={exp.date || ""} onChange={(e) => set(index, "date", e.target.value)} />
+            </div>
+            <div>
+              <label className={labelClass}>Tanggal/Periode (English)</label>
+              <input
+                className={inputClass}
+                value={exp.date_en || ""}
+                onChange={(e) => set(index, "date_en", e.target.value)}
+                placeholder="e.g. August 2025 - Present"
+              />
+            </div>
+          </div>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+            <div>
+              <label className={labelClass}>Judul/Posisi (Indonesia)</label>
+              <input className={inputClass} value={exp.title || ""} onChange={(e) => set(index, "title", e.target.value)} />
+            </div>
+            <div>
+              <label className={labelClass}>Judul/Posisi (English)</label>
+              <input
+                className={inputClass}
+                value={exp.title_en || ""}
+                onChange={(e) => set(index, "title_en", e.target.value)}
+                placeholder="e.g. Web Developer Intern"
+              />
+            </div>
           </div>
           <div>
-            <label className={labelClass}>Judul</label>
-            <input className={inputClass} value={exp.title} onChange={(e) => set(index, "title", e.target.value)} />
+            <label className={labelClass}>Perusahaan / Institusi (Subtitle)</label>
+            <input className={inputClass} value={exp.subtitle || ""} onChange={(e) => set(index, "subtitle", e.target.value)} />
           </div>
-          <div>
-            <label className={labelClass}>Subtitle</label>
-            <input className={inputClass} value={exp.subtitle} onChange={(e) => set(index, "subtitle", e.target.value)} />
-          </div>
-          <div>
-            <label className={labelClass}>Deskripsi</label>
-            <textarea className={inputClass + " h-20"} value={exp.description} onChange={(e) => set(index, "description", e.target.value)} />
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+            <div>
+              <label className={labelClass}>Deskripsi (Indonesia)</label>
+              <textarea className={inputClass + " h-24"} value={exp.description || ""} onChange={(e) => set(index, "description", e.target.value)} />
+            </div>
+            <div>
+              <label className={labelClass}>Deskripsi (English)</label>
+              <textarea
+                className={inputClass + " h-24"}
+                value={exp.description_en || ""}
+                onChange={(e) => set(index, "description_en", e.target.value)}
+                placeholder="Leave blank to use default English translation"
+              />
+            </div>
           </div>
           <div>
             <label className={labelClass}>Tipe</label>

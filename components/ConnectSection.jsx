@@ -5,9 +5,11 @@ import AnimatedContent from "./AnimatedContent";
 import TiltedCard from "./TiltedCard";
 import { getPortfolioData } from "@/lib/portfolioStore";
 import { socialLinks as defaultLinks } from "@/data/portfolio";
+import { useSite } from "@/context/SiteContext";
 
 const ConnectSection = () => {
   const [links, setLinks] = useState(defaultLinks);
+  const { t } = useSite();
 
   useEffect(() => {
     getPortfolioData().then((d) => {
@@ -18,11 +20,11 @@ const ConnectSection = () => {
   }, []);
 
   return (
-    <section id="connect" className="relative w-full bg-black text-white py-24 px-6 md:px-8">
+    <section id="connect" className="relative w-full bg-background text-foreground py-24 px-6 md:px-8">
       <div className="max-w-7xl mx-auto text-center">
         <AnimatedContent>
-          <h2 className="text-3xl md:text-4xl font-bold mb-4">Let's Connect</h2>
-          <p className="text-base md:text-lg text-gray-300 mb-16">Temukan saya di platform berikut.</p>
+          <h2 className="text-3xl md:text-4xl font-bold mb-4">{t.connect.title}</h2>
+          <p className="text-base md:text-lg text-muted mb-16">{t.connect.subtitle}</p>
         </AnimatedContent>
 
         <div className="flex flex-wrap items-center justify-center gap-8 md:gap-16">
@@ -36,8 +38,8 @@ const ConnectSection = () => {
                 href={social.href}
                 target="_blank"
                 rel="noopener noreferrer"
-                aria-label={`Hubungi via ${social.name}`}
-                className="inline-block rounded-2xl focus:outline-none focus:ring-2 focus:ring-cyan-400"
+                aria-label={`${t.connect.ariaLabel} ${social.name}`}
+                className="inline-block rounded-2xl focus:outline-none focus:ring-2 focus:ring-accent"
               >
                 <TiltedCard
                   imageSrc={social.image}

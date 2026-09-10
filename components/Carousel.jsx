@@ -16,8 +16,8 @@ function CarouselItem({ item, index, x, trackItemOffset, itemWidth, round, effec
     <motion.div
       className={`relative shrink-0 flex flex-col ${
         round
-          ? "items-center justify-center text-center bg-[#060010] border-0"
-          : "items-start justify-between bg-[#18181b] border border-[#27272a] rounded-[12px]"
+          ? "items-center justify-center text-center bg-card border-0"
+          : "items-start justify-between bg-card border border-border rounded-[12px]"
       } overflow-hidden cursor-grab active:cursor-grabbing`}
       style={{
         width: itemWidth,
@@ -28,15 +28,15 @@ function CarouselItem({ item, index, x, trackItemOffset, itemWidth, round, effec
       transition={effectiveTransition}
     >
       <div className={`${round ? "p-0 m-0" : "mb-4 p-5"}`}>
-        <span className="flex h-[28px] w-[28px] items-center justify-center rounded-full bg-[#060010] text-cyan-400">
+        <span className="flex h-[28px] w-[28px] items-center justify-center rounded-full bg-background border border-border text-accent">
           {item.icon}
         </span>
       </div>
       <div className="p-5">
-        <div className="mb-1 font-bold text-lg text-white">
+        <div className="mb-1 font-bold text-lg text-foreground">
           {item.title}
         </div>
-        <p className="text-sm text-gray-300 leading-relaxed">{item.description}</p>
+        <p className="text-sm text-muted leading-relaxed">{item.description}</p>
       </div>
     </motion.div>
   );
@@ -151,8 +151,8 @@ export default function Carousel({
       ref={containerRef}
       className={`relative overflow-hidden p-4 max-w-full ${
         round
-          ? "rounded-full border border-white"
-          : "rounded-[24px] border border-[#27272a] bg-black/40"
+          ? "rounded-full border border-border"
+          : "rounded-[24px] border border-border bg-card/40"
       }`}
       style={{
         width: `min(100%, ${baseWidth}px)`,
@@ -201,10 +201,10 @@ export default function Carousel({
               role="tab"
               aria-selected={currentIndex % items.length === index}
               aria-label={`Pindah ke slide ${index + 1}`}
-              className={`h-2.5 w-2.5 rounded-full cursor-pointer transition-colors duration-150 focus:outline-none focus:ring-1 focus:ring-cyan-400 ${
+              className={`h-2.5 w-2.5 rounded-full cursor-pointer transition-colors duration-150 focus:outline-none focus:ring-1 focus:ring-accent ${
                 currentIndex % items.length === index
-                  ? "bg-cyan-400"
-                  : "bg-gray-700 hover:bg-gray-500"
+                  ? "bg-accent"
+                  : "bg-muted/40 hover:bg-muted"
               }`}
               animate={{
                 scale: currentIndex % items.length === index ? 1.2 : 1,
