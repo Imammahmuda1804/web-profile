@@ -1,4 +1,5 @@
 "use client";
+import { useState, useEffect } from "react";
 import ExperienceTimeline from "@/components/ExperienceTimeline";
 import Magnet from "@/components/Magnet";
 import AnimatedContent from "@/components/AnimatedContent";
@@ -8,50 +9,41 @@ import GlareHover from "@/components/GlareHover";
 import Carousel from "@/components/Carousel";
 import AnimatedTitle from "@/components/AnimatedTitle";
 import { useInView } from "react-intersection-observer";
-import { FaSchool, FaBriefcase } from "react-icons/fa6";
+import { FaBriefcase } from "react-icons/fa6";
 import ProjectsSection from "@/components/ProjectsSection";
 import TechStackSection from "@/components/TechStackSection";
 import ConnectSection from "@/components/ConnectSection";
-const experiencesData = [
-  { date: "Agustus 2025 - Sekarang", title: "Mahasiswa Intern", subtitle: "Pt Inovindo Digital Media" },
-  { date: "Februari - Juli 2024", title: "Berkontribusi dalam program pemerintah,PMM batch 4", subtitle: "Pertukaran Mahasiswa Merdeka Batch 4" },
- 
-];
-const techStackImages = [
-  "/react-logo.png",
-  "/nextjs-logo.png",
-  "/tailwind-logo.png",
-  "/figma-logo.png",
-  "/laravel-logo.png",
-];
-const roles = [
-  "Web Developer",
-  "Software Engineer",
-  "Tech Enthusiast",
-  "Open Source Contributor",
-];
-
-const historyItems = [
-  {
-    id: 1,
-    icon: <FaBriefcase className="h-[16px] w-[16px] text-white" />,
-    title: "Politeknik Negeri Padang",
-    description:
-      "2022 - Sekarang" + "\nJurusan Teknologi Informasi, Program Studi Teknologi Rekayasa Perangkat Lunak (Ipk 3.23)"
-  },
-  {
-    id: 2,
-    icon: <FaBriefcase className="h-[16px] w-[16px] text-white" />,
-    title: "SMA Negeri 3 Padang",
-    description:
-      "2019 - 2022",
-  },
-];
+import SmartImage from "@/components/SmartImage";
+import { getPortfolioData } from "@/lib/portfolioStore";
+import { defaultPortfolioData } from "@/data/portfolio";
 
 export default function Home() {
-  const { ref: heroRef, inView: isHeroVisible } = useInView({
-    threshold: 0.1,
-  });
+  const [data, setData] = useState(defaultPortfolioData);
+  const { ref: heroRef, inView: isHeroVisible } = useInView({ threshold: 0.1 });
+
+  useEffect(() => {
+    getPortfolioData().then(setData);
+  }, []);
+
+  const { profile, education, experiences } = data;
+
+  const experiencesData = (experiences || []).map((exp) => ({
+    date: exp.date,
+    title: exp.title,
+    subtitle: exp.subtitle,
+    description: exp.description,
+  }));
+
+  const historyItems = (education || []).map((edu) => ({
+    id: edu.id,
+    icon: <FaBriefcase className="h-4 w-4 text-cyan-400" />,
+    title: edu.institution,
+    description: edu.gpa
+      ? `${edu.period}\n${edu.faculty ? edu.faculty + ", " : ""}Program Studi ${edu.major} (IPK ${edu.gpa})`
+      : edu.major
+      ? `${edu.period}\nJurusan ${edu.major}`
+      : edu.period,
+  }));
 
   return (
     <main className="bg-black">
@@ -63,86 +55,95 @@ export default function Home() {
         <div className="absolute top-0 left-0 w-full h-full z-0">
           {isHeroVisible && <LanyardCanvas />}
         </div>
-        <div className="relative z-10 text-center p-4">
+        <div className="relative z-10 text-center px-4 max-w-4xl mx-auto pointer-events-none select-none">
+          <p className="text-sm md:text-lg text-cyan-400 font-semibold tracking-widest uppercase mb-2">
+            Halo, Saya
+          </p>
           <AnimatedTitle
-            text="Halo, Saya Imam Mahmuda"
-            className="text-4xl md:text-6xl font-bold mb-4"
+            text={profile.name}
+            className="text-4xl sm:text-6xl md:text-7xl font-extrabold mb-4 tracking-tight text-white drop-shadow-lg"
           />
-          <div className="text-lg md:text-xl text-gray-300 h-8">
+          <div className="text-base sm:text-lg md:text-2xl text-gray-300 h-8 flex items-center justify-center">
             <RotatingText
-              texts={roles}
+              texts={profile.roles}
               staggerDuration={0.02}
               rotationInterval={3000}
+              mainClassName="justify-center"
             />
           </div>
         </div>
       </section>
 
-      <section id="about" className="relative w-full bg-black text-white py-24 px-8 overflow-hidden">
-  <div className="max-w-7xl mx-auto">
-    <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-16 items-center">
+      <section id="about" className="relative w-full bg-black text-white py-24 px-6 md:px-8 overflow-hidden">
+        <div className="max-w-7xl mx-auto">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-16 items-center">
+            <div className="flex flex-col items-center justify-center gap-8">
+              <AnimatedContent distance={100} delay={0}>
+                <GlareHover
+                  borderRadius="24px"
+                  glareColor="#00ffff"
+                  borderColor="#00ffff"
+                  width="min(300px, 85vw)"
+                  height="min(400px, 115vw)"
+                  className="shrink-0 shadow-2xl"
+                >
+                  <SmartImage
+                    src={profile.photo}
+                    alt={`Foto ${profile.name}`}
+                    className="w-full h-full object-cover rounded-[24px]"
+                  />
+                </GlareHover>
+              </AnimatedContent>
+              <AnimatedContent distance={100} delay={0.2}>
+                <div className="text-center max-w-lg">
+                  <h2 className="text-3xl md:text-4xl font-bold mb-6 text-cyan-400">
+                    Tentang Saya
+                  </h2>
+                  <p className="text-base md:text-lg text-gray-300 leading-relaxed">
+                    {profile.about}
+                  </p>
+                </div>
+              </AnimatedContent>
+            </div>
 
-      <div className="flex flex-col items-center justify-center gap-8">
-        <AnimatedContent distance={100} delay={0}>
-          <GlareHover
-            borderRadius="24px"
-            glareColor="#00ffff"
-            borderColor="#00ffff"
-            width="300px"
-            height="400px"
-            className="flex-shrink-0 shadow-2xl"
-          >
-            <img
-              src="/foto-profil.png"
-              alt="Foto Imam Mahmuda"
-              className="w-full h-full object-cover rounded-[24px]"
-            />
-          </GlareHover>
-        </AnimatedContent>
-        <AnimatedContent distance={100} delay={0.2}>
-          <div className="text-center max-w-lg">
-            <h2 className="text-4xl font-bold mb-6 text-cyan-400">
-              Tentang Saya
-            </h2>
-            <p className="text-lg text-gray-300 leading-relaxed">
-              Saya adalah seorang Web Developer dengan semangat tinggi
-              untuk menciptakan aplikasi web yang modern dan interaktif.
-              Saya memiliki keahlian dalam tumpukan teknologi frontend dan
-              backend, serta selalu antusias untuk mempelajari hal-hal
-              baru di dunia teknologi.
-            </p>
+            <div className="flex flex-col items-center justify-center gap-8">
+              <AnimatedContent direction="horizontal" distance={100} delay={0.4}>
+                <Carousel items={historyItems} baseWidth={320} />
+              </AnimatedContent>
+
+              <AnimatedContent distance={100} delay={0.6}>
+                <div className="flex flex-wrap items-center justify-center gap-4">
+                  <Magnet padding={25} magnetStrength={4}>
+                    <a
+                      href={profile.cvPath}
+                      download
+                      className="inline-block bg-cyan-400 text-black font-bold py-3 px-8 rounded-full transition-transform duration-300 hover:scale-105 shadow-lg shadow-cyan-500/20"
+                    >
+                      Download CV
+                    </a>
+                  </Magnet>
+                  <Magnet padding={25} magnetStrength={4}>
+                    <a
+                      href={`mailto:${profile.email}`}
+                      className="inline-block border-2 border-cyan-400 text-cyan-400 font-bold py-3 px-8 rounded-full transition-all duration-300 hover:bg-cyan-400/10 hover:scale-105"
+                    >
+                      Hubungi Saya
+                    </a>
+                  </Magnet>
+                </div>
+              </AnimatedContent>
+            </div>
           </div>
-        </AnimatedContent>
-      </div>
+        </div>
+      </section>
 
-      <div className="flex flex-col items-center justify-center gap-8">
-        <AnimatedContent direction="horizontal" distance={100} delay={0.4}>
-            <Carousel items={historyItems} baseWidth={320} />
-        </AnimatedContent>
-
-        <AnimatedContent distance={100} delay={0.6}>
-            <Magnet padding={30} magnetStrength={5}>
-              <a
-                href="/cv-imam-mahmuda.pdf"
-                download
-                className="inline-block bg-cyan-400 text-black font-bold py-3 px-8 rounded-full transition-transform duration-300 hover:scale-105"
-              >
-                Download CV
-              </a>
-            </Magnet>
-        </AnimatedContent>
-      </div>
-      
-    </div>
-  </div>
-</section>
       <div id="experience">
-      <ExperienceTimeline experiences={experiencesData} />
+        <ExperienceTimeline experiences={experiencesData} />
       </div>
       <div id="portofolio">
-      <ProjectsSection />
-      <TechStackSection />
-      <ConnectSection />
+        <ProjectsSection />
+        <TechStackSection />
+        <ConnectSection />
       </div>
     </main>
   );

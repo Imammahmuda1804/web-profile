@@ -6,13 +6,13 @@ const containerVariants = {
   hidden: {},
   visible: {
     transition: {
-      staggerChildren: 0.04, 
+      staggerChildren: 0.03,
     },
   },
 };
 
 const letterVariants = {
-  hidden: { opacity: 0, y: 20 },
+  hidden: { opacity: 0, y: 15 },
   visible: {
     opacity: 1,
     y: 0,
@@ -24,8 +24,9 @@ const letterVariants = {
   },
 };
 
-const AnimatedTitle = ({ text, className }) => {
-  const letters = Array.from(text);
+// ponytail: splits by words to prevent awkward line breaks in the middle of names/words
+const AnimatedTitle = ({ text = "", className = "" }) => {
+  const words = text.split(" ");
 
   return (
     <motion.h1
@@ -35,10 +36,21 @@ const AnimatedTitle = ({ text, className }) => {
       whileInView="visible"
       viewport={{ once: true }}
     >
-      {letters.map((letter, index) => (
-        <motion.span key={index} variants={letterVariants} className="inline-block">
-          {letter === " " ? "\u00A0" : letter}
-        </motion.span>
+      {words.map((word, wordIndex) => (
+        <span key={wordIndex} className="inline-block whitespace-nowrap">
+          {Array.from(word).map((letter, letterIndex) => (
+            <motion.span
+              key={letterIndex}
+              variants={letterVariants}
+              className="inline-block"
+            >
+              {letter}
+            </motion.span>
+          ))}
+          {wordIndex < words.length - 1 && (
+            <span className="inline-block">&nbsp;</span>
+          )}
+        </span>
       ))}
     </motion.h1>
   );
