@@ -93,7 +93,7 @@ export default function Home() {
             className="flex-shrink-0 shadow-2xl"
           >
             <img
-              src="/foto-profil.jpg"
+              src="/foto-profil.png"
               alt="Foto Imam Mahmuda"
               className="w-full h-full object-cover rounded-[24px]"
             />
